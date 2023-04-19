@@ -1,10 +1,10 @@
-import "./style.css";
+import './style.css';
 
-import { saveTasks, savedTasks } from "./modules/edit.js";
+import { saveTasks, savedTasks } from './modules/edit.js';
 
-const taskInput = document.getElementById("input");
-const addButton = document.getElementById("button");
-const todoList = document.getElementById("todo-list");
+const taskInput = document.getElementById('input');
+const addButton = document.getElementById('button');
+const todoList = document.getElementById('todo-list');
 function removeTask(li) {
   const index = Array.prototype.indexOf.call(todoList.children, li);
   savedTasks.splice(index, 1);
@@ -12,11 +12,11 @@ function removeTask(li) {
   for (let i = index; i < todoList.children.length; i += 1) {
     const taskLi = todoList.children[i];
     const checkbox = taskLi.querySelector('input[type="checkbox"]');
-    checkbox.setAttribute("data-index", i);
+    checkbox.setAttribute('data-index', i);
   }
 
   if (li.firstChild.nextSibling.checked) {
-    li.style.display = "none";
+    li.style.display = 'none';
   } else {
     todoList.removeChild(li);
   }
@@ -25,24 +25,24 @@ function removeTask(li) {
 function editTask(li) {
   const taskValue = li.firstChild.nextSibling.textContent.trim();
 
-  const popupDiv = document.createElement("div");
-  popupDiv.classList.add("popup");
-  const heading = document.createElement("h2");
-  heading.textContent = "Edit task";
-  const input = document.createElement("input");
-  input.type = "text";
-  input.setAttribute("value", taskValue);
+  const popupDiv = document.createElement('div');
+  popupDiv.classList.add('popup');
+  const heading = document.createElement('h2');
+  heading.textContent = 'Edit task';
+  const input = document.createElement('input');
+  input.type = 'text';
+  input.setAttribute('value', taskValue);
 
-  const saveButton = document.createElement("button");
-  saveButton.textContent = "Save";
-  saveButton.addEventListener("click", () => {
+  const saveButton = document.createElement('button');
+  saveButton.textContent = 'Save';
+  saveButton.addEventListener('click', () => {
     const editedTaskValue = input.value.trim();
-    if (editedTaskValue !== "") {
+    if (editedTaskValue !== '') {
       li.firstChild.nextSibling.nodeValue = editedTaskValue;
 
       const index = parseInt(
         li.querySelector('input[type="checkbox"]').dataset.index,
-        10
+        10,
       );
 
       savedTasks[index].text = editedTaskValue;
@@ -58,24 +58,24 @@ function editTask(li) {
 
 function renderTasks() {
   savedTasks.forEach((task, index) => {
-    const li = document.createElement("li");
-    const checkbox = document.createElement("input");
-    checkbox.type = "checkbox";
+    const li = document.createElement('li');
+    const checkbox = document.createElement('input');
+    checkbox.type = 'checkbox';
     checkbox.checked = task.completed;
     checkbox.dataset.index = index;
     li.appendChild(checkbox);
     li.innerHTML += `${task.text} <button class="remove-button">X</button> <button class="edit-button">Edit</button>`;
     todoList.appendChild(li);
 
-    const removeButton = li.querySelector(".remove-button");
-    removeButton.addEventListener("click", () => {
+    const removeButton = li.querySelector('.remove-button');
+    removeButton.addEventListener('click', () => {
       removeTask(li);
 
       // window.location.reload;
     });
 
-    const editButton = li.querySelector(".edit-button");
-    editButton.addEventListener("click", () => {
+    const editButton = li.querySelector('.edit-button');
+    editButton.addEventListener('click', () => {
       editTask(li);
     });
   });
@@ -87,7 +87,7 @@ function addTask() {
   const taskValue = taskInput.value.trim();
   // window.location.reload();
 
-  if (taskValue === "") {
+  if (taskValue === '') {
     return;
   }
 
@@ -100,28 +100,28 @@ function addTask() {
   savedTasks.push(task);
   saveTasks();
 
-  const li = document.createElement("li");
-  const checkbox = document.createElement("input");
-  li.style.listStyle = "none";
-  checkbox.type = "checkbox";
+  const li = document.createElement('li');
+  const checkbox = document.createElement('input');
+  li.style.listStyle = 'none';
+  checkbox.type = 'checkbox';
   checkbox.dataset.index = task.index - 1;
   li.appendChild(checkbox);
 
   li.innerHTML += `${task.text} <button class="remove-button">X</button> <button class="edit-button">Edit</button>`;
   todoList.appendChild(li);
 
-  const removeButton = li.querySelector(".remove-button");
-  removeButton.addEventListener("click", () => {
+  const removeButton = li.querySelector('.remove-button');
+  removeButton.addEventListener('click', () => {
     removeTask(li);
   });
 
-  const editButton = li.querySelector(".edit-button");
+  const editButton = li.querySelector('.edit-button');
 
-  editButton.addEventListener("click", () => {
+  editButton.addEventListener('click', () => {
     editTask(li);
   });
 
-  taskInput.value = "";
+  taskInput.value = '';
 }
 
 // complete button
@@ -130,7 +130,7 @@ function addTask() {
 
 // newly comein
 function saveTaskCompletedState(taskElement, isCompleted) {
-  const taskId = taskElement.getAttribute("id");
+  const taskId = taskElement.getAttribute('id');
   const taskData = {
     completed: isCompleted,
   };
@@ -138,14 +138,14 @@ function saveTaskCompletedState(taskElement, isCompleted) {
 }
 
 function markTaskAsCompleted(taskElement) {
-  taskElement.classList.add("completed");
+  taskElement.classList.add('completed');
   const checkbox = taskElement.querySelector('input[type="checkbox"]');
   checkbox.checked = true;
   saveTaskCompletedState(taskElement, true);
 }
 
 function markTaskAsUncompleted(taskElement) {
-  taskElement.classList.remove("completed");
+  taskElement.classList.remove('completed');
   const checkbox = taskElement.querySelector('input[type="checkbox"]');
   checkbox.checked = false;
   saveTaskCompletedState(taskElement, false);
@@ -154,17 +154,17 @@ function markTaskAsUncompleted(taskElement) {
 function removeCompletedTasks() {
   const checkboxes = document.querySelectorAll('input[type="checkbox"]');
   checkboxes.forEach((checkbox) => {
-    checkbox.addEventListener("change", function () {
+    checkbox.addEventListener('change', function () {
       if (this.checked) {
         const li = this.parentNode;
-        if (li.classList.contains("completed")) {
+        if (li.classList.contains('completed')) {
           markTaskAsUncompleted(li);
         } else {
           markTaskAsCompleted(li);
         }
       } else {
         const li = this.parentNode;
-        if (li.classList.contains("completed")) {
+        if (li.classList.contains('completed')) {
           markTaskAsUncompleted(li);
         } else {
           saveTaskCompletedState(li, false);
@@ -181,6 +181,6 @@ function removeCompletedTasks() {
 // call removeCompletedTasks to initialize
 removeCompletedTasks();
 
-addButton.addEventListener("click", addTask);
+addButton.addEventListener('click', addTask);
 
 // completeButton();
