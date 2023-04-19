@@ -6,14 +6,13 @@ const taskInput = document.getElementById('input');
 const addButton = document.getElementById('button');
 const todoList = document.getElementById('todo-list');
 
-// const completeButton = document.querySelector('.complete');
 
 function removeTask(li) {
   const index = Array.prototype.indexOf.call(todoList.children, li);
   savedTasks.splice(index, 1);
   saveTasks();
 
-  // Update remaining tasks' indexes
+  
   for (let i = index; i < todoList.children.length; i += 1) {
     const taskLi = todoList.children[i];
     const checkbox = taskLi.querySelector('input[type="checkbox"]');
